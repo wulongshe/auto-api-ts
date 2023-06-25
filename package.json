@@ -1,6 +1,6 @@
 {
   "name": "auto-api-ts",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "shewulong",
   "license": "MIT",
   "description": "",
@@ -19,7 +19,7 @@
     "dist",
     "src"
   ],
-  "keywords": [],
+  "keywords": ["swagger", "api", "typescript"],
   "dependencies": {
     "@types/fs-extra": "^11.0.1",
     "axios": "^1.4.0",

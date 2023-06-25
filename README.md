@@ -2,6 +2,7 @@
 
 ## Description
 
+自动将swagger接口转换为ts类型
 This is a simple tool to generate typescript interfaces from a json schema.
 
 ## Installation
