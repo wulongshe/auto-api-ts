@@ -45,7 +45,7 @@ export async function generateService(basePath: string, paths: Paths, tags: Tags
       const tagInfo = tagInfoMap[curTag!]
 
       let services = tagInfo?.services
-      services?.push(templateDesc(methodValueObj.description, curTag, fetchMethod, prop))
+      services?.push(templateDesc(methodValueObj.description || methodValueObj.summary))
 
       const importType = tagInfo?.importType
 

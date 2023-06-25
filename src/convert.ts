@@ -89,12 +89,12 @@ export function generateDesc(desc: string | undefined) {
   return desc ? ' //' + desc : ''
 }
 
-export const templateDesc = (description: string, tags: string, method: string, prop: string) => `
+export const templateDesc = (description: string) => `
 /**
  * @description ${description || ''}
- * @tags ${tags}
  */
 `
+// * @tags ${tags}
 // * @request ${method}:${prop}
 
 export const templateService = (
