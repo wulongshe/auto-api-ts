@@ -4,9 +4,8 @@ import { generateService } from './service'
 import { generateType } from './convert'
 import fs from 'fs-extra'
 
-dotenv.config()
-
 async function main() {
+  dotenv.config()
   const { data } = await loadApiDocs()
   const { definitions, paths, tags, basePath } = data
 

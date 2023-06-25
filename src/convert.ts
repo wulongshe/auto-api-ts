@@ -86,7 +86,7 @@ export function getPathParams(queryParams: ConvertItem[]) {
 
 // 注释
 export function generateDesc(desc: string | undefined) {
-  return desc ? '//' + desc : ''
+  return desc ? ' //' + desc : ''
 }
 
 export const templateDesc = (description: string, tags: string, method: string, prop: string) => `
