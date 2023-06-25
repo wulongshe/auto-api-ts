@@ -1,6 +1,7 @@
 import { DefinitionsItem, IntegratedType, Vo, VoProp, convertTypeEnum } from './types'
 import { joinFilter } from './utils'
 import { ConvertItem } from './types'
+import path from 'path'
 
 export function convertPath(path: string) {
   return path
@@ -114,14 +115,14 @@ export const templateService = (
         `(${joinFilter([params, data, pathStr])})` +
         `: Promise<${resType || 'void'}>` +
         `=> request.${method}` +
-        `(\`${basePath}${convertPath(prop)}\`, { ${joinFilter([
+        `(\`${path.posix.join(basePath, convertPath(prop))}\`, { ${joinFilter([
           queryName ? 'params' : '',
           bodyName ? 'data' : '',
         ])} })\n`
     : `export const ${name} = ` +
         `(${joinFilter([params, data, pathStr])})` +
         `=> axios.${method}<${resType || 'void'}>` +
-        `(\`${basePath}${convertPath(prop)}\`, { ${joinFilter([queryName ? 'params' : '', bodyName ? 'data' : ''])} })\n`
+        `(\`${path.posix.join(basePath, convertPath(prop))}\`, { ${joinFilter([queryName ? 'params' : '', bodyName ? 'data' : ''])} })\n`
 }
 
 export const templateImport = (importType: string[]) =>
