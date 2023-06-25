@@ -113,11 +113,11 @@ export const templateService = (
   return process.env.REQUEST_METHOD === 'request'
     ? `export const ${name} = ` +
         `(${joinFilter([params, data, pathStr])})` +
-        `: Promise<${resType || 'void'}>` +
+        `: Promise<${resType || 'void'}> ` +
         `=> request.${method}` +
         `(\`${path.posix.join(basePath, convertPath(prop))}\`, ${joinFilter([queryName ? '{ params }' : '', bodyName ? 'data' : ''])})\n`
     : `export const ${name} = ` +
-        `(${joinFilter([params, data, pathStr])})` +
+        `(${joinFilter([params, data, pathStr])}) ` +
         `=> axios.${method}<${resType || 'void'}>` +
         `(\`${path.posix.join(basePath, convertPath(prop))}\`, ${joinFilter([queryName ? '{ params }' : '', bodyName ? 'data' : ''])})\n`
 }

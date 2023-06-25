@@ -1,6 +1,6 @@
 {
   "name": "auto-api-ts",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "author": "shewulong",
   "license": "MIT",
   "description": "",
@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "preview": "tsc && node dist/index.js"
+    "pub": "tsc && pnpm publish"
   },
   "files": [
     "dist",
