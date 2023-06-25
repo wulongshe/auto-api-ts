@@ -109,15 +109,22 @@ export const templateService = (
 ) => {
   const params = queryName ? 'params: ' + queryName : ''
   const data = bodyName ? 'data: ' + bodyName : ''
-  return (
-    `export const ${name} = ` +
-    `(${joinFilter([params, data, pathStr])})` +
-    `=> axios.${method}<${resType || 'void'}>` +
-    `(\`${basePath}${convertPath(prop)}\`, { ${joinFilter([queryName ? 'params' : '', bodyName ? 'data' : ''])} })\n\n`
-  )
+  return process.env.REQUEST_METHOD === 'request'
+    ? `export const ${name} = ` +
+        `(${joinFilter([params, data, pathStr])})` +
+        `: Promise<${resType || 'void'}>` +
+        `=> request.${method}` +
+        `(\`${basePath}${convertPath(prop)}\`, { ${joinFilter([
+          queryName ? 'params' : '',
+          bodyName ? 'data' : '',
+        ])} })\n`
+    : `export const ${name} = ` +
+        `(${joinFilter([params, data, pathStr])})` +
+        `=> axios.${method}<${resType || 'void'}>` +
+        `(\`${basePath}${convertPath(prop)}\`, { ${joinFilter([queryName ? 'params' : '', bodyName ? 'data' : ''])} })\n`
 }
 
-export const templateImport = (importType: string[]) => `
-import axios from 'axios'
-import { ${importType.join(', ')} } from './typing'
-`
+export const templateImport = (importType: string[]) =>
+  process.env.REQUEST_METHOD === 'request'
+    ? `import request from '@/api/request'\nimport { ${importType.join(', ')} } from './typing'\n`
+    : `import axios from 'axios'\nimport { ${importType.join(', ')} } from './typing'\n`
