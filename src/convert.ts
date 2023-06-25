@@ -119,7 +119,7 @@ export const templateService = (
     : `export const ${name} = ` +
         `(${joinFilter([params, data, pathStr])}) ` +
         `=> axios.${method}<${resType || 'void'}>` +
-        `(\`${path.posix.join(basePath, convertPath(prop))}\`, ${joinFilter([queryName ? '{ params }' : '', bodyName ? 'data' : ''])})\n`
+        `(\`${path.posix.join(basePath, convertPath(prop))}\`, ${joinFilter([bodyName ? 'data' : '', queryName ? '{ params }' : ''])})\n`
 }
 
 export const templateImport = (importType: string[]) =>
