@@ -48,7 +48,7 @@ npm run api
 ## Use in typescript
 
 ```ts
-import { build } require('../dist/index.js');
+import { build } '../dist/index.js';
 
 build({
   BASE_URL: 'https://api.xxx.dev',
