@@ -1,3 +1,10 @@
 #!/usr/bin/env node
 
-require('../dist/index.js');
+const dotenv = require('dotenv');
+
+const { build } = require('../dist/index.js');
+
+dotenv.config();
+
+build(process.env);
+

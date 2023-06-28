@@ -2,8 +2,9 @@
 
 ## Description
 
-自动将swagger接口转换为ts类型
-This is a simple tool to generate typescript interfaces from a json schema.
+### 自动将swagger接口转换为ts类型
+
+### This is a simple tool to generate typescript interfaces from a json schema
 
 ## Installation
 
@@ -11,21 +12,21 @@ This is a simple tool to generate typescript interfaces from a json schema.
 npm install -g auto-api-ts
 ```
 
-## Usage
+## Use in Scripts
 
 ### 项目根目录下新建`.env`文件
 
 ```bash
 # swagger地址
-BASE_URL="xxx"
+BASE_URL="https://api.xxx.dev"
 # swagger版本
-API_VERSION="xxx"
+API_VERSION="/api/v1/api-docs"
 # swagger请求头
 COOKIE="xxx"
-# 生成的文件夹
-TYPE_PATH="./types"
-# 请求方式 axios | request，默认axios
-REQUEST_METHOD="axios"
+# 生成的文件夹路径
+OUTPUT="./apis"
+# 请求方法的导入路径
+IMPORT="@/request"
 ```
 
 ### 在`package.json`中添加脚本
@@ -42,8 +43,18 @@ REQUEST_METHOD="axios"
 
 ```bash
 npm run api
-# or yarn
-yarn api
-# or pnpm
-pnpm api
+```
+
+## Use in typescript
+
+```ts
+import { build } require('../dist/index.js');
+
+build({
+  BASE_URL: 'https://api.xxx.dev',
+  API_VERSION: '/api/v1/xxx/api-docs',
+  COOKIE: 'xxx',
+  OUTPUT: './apis',
+  IMPORT: '@/request',
+});
 ```
