@@ -1,5 +1,5 @@
 import { generator } from './generator'
-import { ApiDocs, clearCache, loadApiDocs, writeTsFile } from './io'
+import { ApiDocs, clearCache, loadApiDocs, writeFile } from './io'
 import { transformer } from './transformer'
 
 export interface Config {
@@ -20,5 +20,5 @@ export async function build(config: Config) {
   const apiDocs = await loadApiDocs(config)
   const codes = compiler(apiDocs.data, config.IMPORT)
   await clearCache(config.OUTPUT)
-  Object.entries(codes).forEach(([name, code]) => writeTsFile(config.OUTPUT, name, code))
+  Object.entries(codes).forEach(([name, code]) => writeFile(config.OUTPUT, name + '.ts', code + '\n'))
 }

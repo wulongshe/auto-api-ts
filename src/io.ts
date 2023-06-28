@@ -124,6 +124,6 @@ export async function clearCache(path: string) {
   await fs.mkdir(path)
 }
 
-export async function writeTsFile(output: string, name: string, content: string) {
-  await fs.writeFile(path.posix.join(output, name + '.ts'), content)
+export async function writeFile(output: string, name: string, content: string) {
+  await fs.writeFile(path.posix.join(output, name), content)
 }

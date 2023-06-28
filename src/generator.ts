@@ -34,10 +34,6 @@ export function generateModels(models: TransformedModel[]): string {
   return models.map(generateModel).join('\n\n')
 }
 
-export function filterJoin(arr: (string | undefined)[], splitter = ', '): string {
-  return arr.filter(Boolean).join(splitter)
-}
-
 export function generateApi(api: TransformedApi, basePath: string): string {
   const { name, description, response, method, body, query, paths = [] } = api
   const pathProps = paths.map(generateProperty)
