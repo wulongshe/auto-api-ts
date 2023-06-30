@@ -26,7 +26,7 @@ COOKIE="xxx"
 # 生成的文件夹路径
 OUTPUT="./apis"
 # 请求方法的导入路径
-IMPORT="@/request"
+IMPORT="import { request } from '@/request"
 ```
 
 ### 在`package.json`中添加脚本
@@ -55,6 +55,6 @@ build({
   API_VERSION: '/api/v1/xxx/api-docs',
   COOKIE: 'xxx',
   OUTPUT: './apis',
-  IMPORT: '@/request',
+  IMPORT: 'import { request } from '@/request'
 });
 ```

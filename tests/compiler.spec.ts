@@ -130,9 +130,9 @@ test('compiler', () => {
       },
     },
   }
-  const impReqPath = '@/request'
+  const importRequest = `import { request } from '@/request'`
 
-  const codes = compiler(apiDocs, impReqPath)
+  const codes = compiler(apiDocs, importRequest)
 
   expect(codes).toEqual({
     models: `export interface MyItemSkuGetParams {

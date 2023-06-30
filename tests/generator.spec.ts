@@ -75,7 +75,7 @@ export const MyItemNoSupplyIdPost = (data: UpdateSupplyStatusRequest, id: number
 
 test('generateServices', () => {
   const basePath = '/api/v1/scm/'
-  const impReqPath = '@/request'
+  const importRequest = `import { request } from '@/request'`
   const apis: TransformedApi[] = [
     {
       id: 'updateSupplyStatusUsingPOST',
@@ -99,7 +99,7 @@ test('generateServices', () => {
       response: 'SupplyItemSkuRes[]',
     },
   ]
-  const serviceCode = generateService(apis, basePath, impReqPath)
+  const serviceCode = generateService(apis, basePath, importRequest)
 
   expect(serviceCode).toBe(`import { request } from '@/request'
 import { UpdateSupplyStatusRequest } from './models'
