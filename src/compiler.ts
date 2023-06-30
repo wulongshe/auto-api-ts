@@ -1,3 +1,4 @@
+import path from 'path'
 import { generator } from './generator'
 import { ApiDocs, clearCache, loadApiDocs, writeFile } from './io'
 import { transformer } from './transformer'
@@ -20,5 +21,8 @@ export async function build(config: Config) {
   const apiDocs = await loadApiDocs(config)
   const codes = compiler(apiDocs.data, config.IMPORT)
   await clearCache(config.OUTPUT)
-  Object.entries(codes).forEach(([name, code]) => writeFile(config.OUTPUT, name + '.ts', code + '\n'))
+  await Promise.all(
+    Object.entries(codes).map(([name, code]) => writeFile(path.posix.join(config.OUTPUT, name + '.ts'), code + '\n')),
+  )
+  console.log('> build success🎉')
 }

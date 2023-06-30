@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import fs from 'fs-extra'
 import { Config } from './compiler'
-import path from 'path'
 
 export interface ApiDocs {
   basePath: string
@@ -124,6 +123,6 @@ export async function clearCache(path: string) {
   await fs.mkdir(path)
 }
 
-export async function writeFile(output: string, name: string, content: string) {
-  await fs.writeFile(path.posix.join(output, name), content)
+export async function writeFile(fileName: string, content: string) {
+  await fs.writeFile(fileName, content)
 }

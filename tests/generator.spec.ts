@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 import { generateApi, generateModel, generateService } from '../src/generator'
-import { TransformedApi, TransformedModel } from '../src/transformer'
+import { TransformedApi, TransformedModel, TransformedTag } from '../src/transformer'
 
 test('generateModel', () => {
   const model: TransformedModel = {
@@ -76,32 +76,37 @@ export const MyItemNoSupplyIdPost = (data: UpdateSupplyStatusRequest, id: number
 test('generateServices', () => {
   const basePath = '/api/v1/scm/'
   const importRequest = `import { request } from '@/request'`
-  const apis: TransformedApi[] = [
-    {
-      id: 'updateSupplyStatusUsingPOST',
-      modelNames: ['UpdateSupplyStatusRequest'],
-      models: undefined,
-      tag: '供应商我的商品',
-      name: 'MyItemNoSupplyIdPost',
-      description: '不再供货接口',
-      method: 'post',
-      path: '/myItem/noSupply/${id}',
-      body: 'UpdateSupplyStatusRequest',
-      query: undefined,
-      paths: [
-        {
-          key: 'id',
-          required: true,
-          value: 'number',
-          description: '商品id',
-        },
-      ],
-      response: 'SupplyItemSkuRes[]',
-    },
-  ]
-  const serviceCode = generateService(apis, basePath, importRequest)
+  const tag: TransformedTag = {
+    description: '供应商我的商品',
+    name: 'SupplyItemController',
+    apis: [
+      {
+        id: 'updateSupplyStatusUsingPOST',
+        modelNames: ['UpdateSupplyStatusRequest'],
+        models: undefined,
+        tag: '供应商我的商品',
+        name: 'MyItemNoSupplyIdPost',
+        description: '不再供货接口',
+        method: 'post',
+        path: '/myItem/noSupply/${id}',
+        body: 'UpdateSupplyStatusRequest',
+        query: undefined,
+        paths: [
+          {
+            key: 'id',
+            required: true,
+            value: 'number',
+            description: '商品id',
+          },
+        ],
+        response: 'SupplyItemSkuRes[]',
+      },
+    ],
+  }
+  const serviceCode = generateService(tag, basePath, importRequest)
 
-  expect(serviceCode).toBe(`import { request } from '@/request'
+  expect(serviceCode).toBe(`/* 供应商我的商品 */
+import { request } from '@/request'
 import { UpdateSupplyStatusRequest } from './models'
 
 /* 不再供货接口 */

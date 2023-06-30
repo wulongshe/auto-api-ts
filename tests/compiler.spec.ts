@@ -150,17 +150,20 @@ export interface SupplyItemSkuRes {
   imageList?: Image[] /* 图片列表 */
   pass?: boolean /* 是否通过审核 */
 }`,
-    SupplyItemController: `import { request } from '@/request'
+    SupplyItemController: `/* 供应商我的商品 */
+import { request } from '@/request'
 import { UpdateSupplyStatusRequest } from './models'
 
 /* 不再供货接口 */
 export const MyItemNoSupplyIdPost = (data: UpdateSupplyStatusRequest, id: number /* 商品id */): Promise<boolean> => request.post(\`/api/v1/scm/myItem/noSupply/\${id}\`, data)`,
-    SupplyOrderController: `import { request } from '@/request'
+    SupplyOrderController: `/* 供应商订单 */
+import { request } from '@/request'
 import { MyItemSkuGetParams, SupplyItemSkuRes } from './models'
 
 /* 我的供货-sku列表 */
 export const MyItemSkuGet = (params: MyItemSkuGetParams): Promise<SupplyItemSkuRes[]> => request.get(\`/api/v1/scm/myItem/sku\`, { params })`,
-    SupplyPackageController: `import { request } from '@/request'
+    SupplyPackageController: `/* 供应商包裹 */
+import { request } from '@/request'
 import {  } from './models'`,
   })
 })

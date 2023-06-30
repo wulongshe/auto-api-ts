@@ -322,46 +322,60 @@ test('transformer', () => {
 
   expect(newApiDocs).toEqual({
     basePath: '/api/v1/scm/',
-    tags: {
-      SupplyItemController: [
-        {
-          id: 'updateSupplyStatusUsingPOST',
-          modelNames: ['UpdateSupplyStatusRequest'],
-          models: undefined,
-          tag: '供应商我的商品',
-          name: 'MyItemNoSupplyIdPost',
-          description: '不再供货接口',
-          method: 'post',
-          path: '/myItem/noSupply/${id}',
-          body: 'UpdateSupplyStatusRequest',
-          query: undefined,
-          paths: [{
-            key: 'id',
-            required: true,
-            value: 'number',
-            description: '商品id',
-          }],
-          response: 'boolean',
-        },
-      ],
-      SupplyOrderController: [
-        {
-          id: 'skuListUsingGET_1',
-          modelNames: ['MyItemSkuGetParams', 'SupplyItemSkuRes'],
-          models: undefined,
-          tag: '供应商订单',
-          name: 'MyItemSkuGet',
-          description: '我的供货-sku列表',
-          method: 'get',
-          path: '/myItem/sku',
-          body: undefined,
-          query: 'MyItemSkuGetParams',
-          paths: undefined,
-          response: 'SupplyItemSkuRes[]',
-        },
-      ],
-      SupplyPackageController: [],
-    },
+    tags: [
+      {
+        name: 'SupplyItemController',
+        description: '供应商我的商品',
+        apis: [
+          {
+            id: 'updateSupplyStatusUsingPOST',
+            modelNames: ['UpdateSupplyStatusRequest'],
+            models: undefined,
+            tag: '供应商我的商品',
+            name: 'MyItemNoSupplyIdPost',
+            description: '不再供货接口',
+            method: 'post',
+            path: '/myItem/noSupply/${id}',
+            body: 'UpdateSupplyStatusRequest',
+            query: undefined,
+            paths: [
+              {
+                key: 'id',
+                required: true,
+                value: 'number',
+                description: '商品id',
+              },
+            ],
+            response: 'boolean',
+          },
+        ],
+      },
+      {
+        name: 'SupplyOrderController',
+        description: '供应商订单',
+        apis: [
+          {
+            id: 'skuListUsingGET_1',
+            modelNames: ['MyItemSkuGetParams', 'SupplyItemSkuRes'],
+            models: undefined,
+            tag: '供应商订单',
+            name: 'MyItemSkuGet',
+            description: '我的供货-sku列表',
+            method: 'get',
+            path: '/myItem/sku',
+            body: undefined,
+            query: 'MyItemSkuGetParams',
+            paths: undefined,
+            response: 'SupplyItemSkuRes[]',
+          },
+        ],
+      },
+      {
+        name: 'SupplyPackageController',
+        description: '供应商包裹',
+        apis: [],
+      },
+    ],
     models: [
       {
         name: 'MyItemSkuGetParams',
