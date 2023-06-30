@@ -34,10 +34,10 @@ export function generateApi(api: TransformedApi, basePath: string): string {
   const { name, description, response, method, body, query, paths = [] } = api
   const pathProps = paths.map(generateProperty)
   const properties = [body && `data: ${body}`, query && `params: ${query}`, ...pathProps].filter(Boolean).join(', ')
-  const parameters = [body && 'data', query && '{ params }'].filter(Boolean).join(', ')
   const apiPath = `\`${path.posix.join(basePath, api.path)}\``
+  const parameters = [apiPath, body && 'data', query && '{ params }'].filter(Boolean).join(', ')
   return `${generateDescription(description)}
-export const ${name} = (${properties}): Promise<${response || UNKNOWN}> => request.${method}(${apiPath}, ${parameters})`
+export const ${name} = (${properties}): Promise<${response || UNKNOWN}> => request.${method}(${parameters})`
 }
 
 export function generateService(tag: TransformedTag, basePath: string, importRequest: string): string {
