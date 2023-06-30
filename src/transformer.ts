@@ -1,6 +1,7 @@
 import { ApiDocs, DefinitionItem, Definitions, MethodType, Parameter, PathItem, Paths, Property, Tag } from './io'
 
 export interface TransformedApiDocs {
+  name: string
   models: TransformedModel[]
   basePath: string
   tags: TransformedTag[]
@@ -135,6 +136,11 @@ export function transformParams(name: string, parameters: Parameter[]): Transfor
   }
 }
 
+export function transformDocumentName({ basePath = '', info: { title } }: ApiDocs): string {
+  const plist = basePath.replace(/[\{\}]/g, '').split(/[\/\.]/)
+  return [title, ...plist.reverse()].filter(Boolean).map(capitalizedWord).join('')
+}
+
 export function transformApiName(path: string, method: string): string {
   const plist = path.replace(/[\{\}]/g, '').split(/[\/\.]/)
   plist.push(method)
@@ -189,7 +195,7 @@ export function transformApi(path: string, pathItem: PathItem): TransformedApi {
 export function transformApis(paths: Paths): [Record<string, TransformedApi[]>, TransformedModel[]] {
   const models: TransformedModel[] = []
   const apis = Object.entries(paths)
-    .map(([path, pathItem]) => transformApi(path, pathItem))
+    .map(([path, pathItem]) => transformApi(path, pathItem || {}))
     .reduce((acc, api) => {
       api.models && models.push(...api.models)
       ;(acc[api.tag] ??= []).push({ ...api, models: void 0 })
@@ -210,9 +216,11 @@ export function transformTags(tags: Tag[], apis: Record<string, TransformedApi[]
   return newTags
 }
 
-export function transformer({ basePath, tags, paths, definitions }: ApiDocs): TransformedApiDocs {
+export function transformer(apiDocs: ApiDocs): TransformedApiDocs {
+  const { basePath = '', tags = [], paths = {}, definitions = {} } = apiDocs
   const [apis, models] = transformApis(paths)
   return {
+    name: transformDocumentName(apiDocs),
     models: [...models, ...transformModels(definitions)],
     tags: transformTags(tags, apis),
     basePath,

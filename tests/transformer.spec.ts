@@ -191,6 +191,9 @@ test('transformApi', () => {
 
 test('transformer', () => {
   const apiDocs: ApiDocs = {
+    info: {
+      title: 'supplier',
+    },
     basePath: '/api/v1/scm/',
     tags: [
       {
@@ -321,6 +324,7 @@ test('transformer', () => {
   const newApiDocs = transformer(apiDocs)
 
   expect(newApiDocs).toEqual({
+    name: 'SupplierScmV1Api',
     basePath: '/api/v1/scm/',
     tags: [
       {

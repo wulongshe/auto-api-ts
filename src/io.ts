@@ -2,37 +2,42 @@ import axios, { AxiosResponse } from 'axios'
 import fs from 'fs-extra'
 import { Config } from './compiler'
 
+export interface SwaggerResource {
+  name: string
+  location: string
+  swaggerVersion?: string
+}
 export interface ApiDocs {
-  basePath: string
-  tags: Tag[]
-  paths: Paths
-  definitions: Definitions
-  // swagger: string
-  // info: Info
-  // host: string
-  // consumes: string[]
-  // produces: string[]
+  basePath?: string
+  tags?: Tag[]
+  paths?: Paths
+  definitions?: Definitions
+  info: Info
+  swagger?: string
+  host?: string
+  consumes?: string[]
+  produces?: string[]
 }
 
-// export interface Info {
-//   description?: string
-//   version: string
-//   title: string
-//   license: License
-// }
+export interface Info {
+  description?: string
+  version?: string
+  title: string
+  license?: License
+}
 
-// export interface License {
-//   name: string
-//   url: string
-// }
+export interface License {
+  name: string
+  url: string
+}
 
 export interface Tag {
   name: string
   description: string
 }
 
-export interface Paths {
-  [path: string]: PathItem
+export type Paths = {
+  [path in string]?: PathItem
 }
 
 export type MethodType = 'get' | 'post' | 'put' | 'delete'
@@ -80,7 +85,7 @@ export interface Definitions {
 
 export interface DefinitionItem {
   type: string
-  properties: Properties
+  properties?: Properties
   title?: string
 }
 
@@ -96,13 +101,27 @@ export interface Property {
   format?: string
 }
 
-export async function loadApiDocs(config: Config): Promise<AxiosResponse<ApiDocs>> {
-  const url = config.BASE_URL + config.API_VERSION
-  const cookie = config.COOKIE
+export function loadSwaggerResources(config: Config): Promise<AxiosResponse<SwaggerResource[]>> {
+  const url = config.BASE_URL + '/swagger-resources'
   const referer = config.BASE_URL + '/swagger-ui.html'
   return axios(url, {
     headers: {
-      cookie,
+      cookie: config.COOKIE,
+      accept: 'application/json, text/plain, */*',
+      referer,
+      'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
+      'Referrer-Policy': 'strict-origin-when-cross-origin',
+    },
+    method: 'GET',
+  })
+}
+
+export async function loadApiDocs(config: Config, apiVersion: string): Promise<AxiosResponse<ApiDocs>> {
+  const url = config.BASE_URL + apiVersion
+  const referer = config.BASE_URL + '/swagger-ui.html'
+  return axios(url, {
+    headers: {
+      cookie: config.COOKIE,
       referer,
       accept: 'application/json;charset=utf-8,*/*',
       'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',

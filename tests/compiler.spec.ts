@@ -5,6 +5,9 @@ import { ApiDocs } from '../src/io'
 test('compiler', () => {
   const apiDocs: ApiDocs = {
     basePath: '/api/v1/scm/',
+    info: {
+      title: 'supplier',
+    },
     tags: [
       {
         name: '供应商我的商品',
@@ -134,8 +137,10 @@ test('compiler', () => {
 
   const codes = compiler(apiDocs, importRequest)
 
-  expect(codes).toEqual({
-    models: `export interface MyItemSkuGetParams {
+  expect(codes).toEqual([
+    'SupplierScmV1Api',
+    {
+      models: `export interface MyItemSkuGetParams {
   supplierSpu?: string /* 商家spu */
   status?: number /* 认领状态 */
 }
@@ -150,20 +155,21 @@ export interface SupplyItemSkuRes {
   imageList?: Image[] /* 图片列表 */
   pass?: boolean /* 是否通过审核 */
 }`,
-    SupplyItemController: `/* 供应商我的商品 */
+      SupplyItemController: `/* 供应商我的商品 */
 import { request } from '@/request'
 import { UpdateSupplyStatusRequest } from './models'
 
 /* 不再供货接口 */
 export const MyItemNoSupplyIdPost = (data: UpdateSupplyStatusRequest, id: number /* 商品id */): Promise<boolean> => request.post(\`/api/v1/scm/myItem/noSupply/\${id}\`, data)`,
-    SupplyOrderController: `/* 供应商订单 */
+      SupplyOrderController: `/* 供应商订单 */
 import { request } from '@/request'
 import { MyItemSkuGetParams, SupplyItemSkuRes } from './models'
 
 /* 我的供货-sku列表 */
 export const MyItemSkuGet = (params: MyItemSkuGetParams): Promise<SupplyItemSkuRes[]> => request.get(\`/api/v1/scm/myItem/sku\`, { params })`,
-    SupplyPackageController: `/* 供应商包裹 */
+      SupplyPackageController: `/* 供应商包裹 */
 import { request } from '@/request'
 import {  } from './models'`,
-  })
+    },
+  ])
 })
