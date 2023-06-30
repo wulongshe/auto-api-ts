@@ -87,7 +87,7 @@ export function transformModel(name: string, definition: DefinitionItem): Transf
   return {
     name: transformModelName(name),
     description: definition.title,
-    props: Object.entries(definition.properties).map(([name, prop]) => transformProperty(name, prop)),
+    props: Object.entries(definition.properties || {}).map(([name, prop]) => transformProperty(name, prop)),
   }
 }
 
