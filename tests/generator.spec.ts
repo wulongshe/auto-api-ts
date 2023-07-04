@@ -105,8 +105,7 @@ test('generateServices', () => {
   }
   const serviceCode = generateService(tag, basePath, importRequest)
 
-  expect(serviceCode).toBe(`/* 供应商我的商品 */
-import { request } from '@/request'
+  expect(serviceCode).toBe(`import { request } from '@/request'
 import { UpdateSupplyStatusRequest } from './models'
 
 /* 不再供货接口 */
