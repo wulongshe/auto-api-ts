@@ -19,14 +19,14 @@ npm install -g auto-api-ts
 ```bash
 # swagger地址
 BASE_URL="https://api.xxx.dev"
-# swagger版本
-API_VERSION="/api/v1/api-docs"
+# swagger版本（可选）
+API_VERSION="/api/v1/xxx/api-docs"
 # swagger请求头
 COOKIE="xxx"
 # 生成的文件夹路径
 OUTPUT="./apis"
 # 请求方法的导入路径
-IMPORT="import { request } from '@/request"
+IMPORT="import { request } from '@/request'"
 ```
 
 ### 在`package.json`中添加脚本
@@ -51,10 +51,9 @@ npm run api
 import { build } 'auto-api-ts';
 
 build({
-  BASE_URL: 'https://api.xxx.dev',
-  API_VERSION: '/api/v1/xxx/api-docs',
-  COOKIE: 'xxx',
-  OUTPUT: './apis',
-  IMPORT: 'import { request } from '@/request'
+  BASE_URL: `https://api.xxx.dev`,
+  COOKIE: `xxx`,
+  OUTPUT: `./apis`,
+  IMPORT: `import { request } from '@/request'`
 });
 ```
