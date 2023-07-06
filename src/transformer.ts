@@ -53,12 +53,16 @@ export function capitalizedWord(word: string): string {
   return word.charAt(0).toUpperCase() + word.slice(1)
 }
 
+export function trim(str: string, ch: string): string {
+  return str.replace(new RegExp(`^${ch}+|${ch}+$`, 'g'), '')
+}
+
 export function transformModelName(name: string): string {
-  return name.replace(/[«»]/g, '')
+  return trim(name.replace(/[«»\?\~\!\@\#\$\%\^\&\*\-\+\(\)\.\{\}\[\]\<\>\;\/\\\s,（），！；]+/g, '_'), '_')
 }
 
 export function transformRefType(ref: string): string {
-  return ref.split('/').pop()?.replace(/[«»]/g, '') || ''
+  return transformModelName(ref.split('/').pop() || '')
 }
 
 export function transformArrayType(prop: Property) {
