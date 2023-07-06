@@ -58,7 +58,7 @@ export function trim(str: string, ch: string): string {
 }
 
 export function transformModelName(name: string): string {
-  return trim(name.replace(/[«»\?\~\!\@\#\$\%\^\&\*\-\+\(\)\.\{\}\[\]\<\>\;\/\\\s,（），！；]+/g, '_'), '_')
+  return trim(name.replace(/[«»\?\~\!\@\#\$\%\^\&\*\-\+\(\)\.\{\}\[\]\<\>\;\/\\\s,（）【】，！；]+/g, '_'), '_')
 }
 
 export function transformRefType(ref: string): string {
