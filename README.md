@@ -27,6 +27,8 @@ COOKIE="xxx"
 OUTPUT="./apis"
 # 请求方法的导入路径
 IMPORT="import { request } from '@/request'"
+# api前缀
+PREFIX="/api/v1"
 ```
 
 ### 在`package.json`中添加脚本
@@ -54,6 +56,7 @@ build({
   BASE_URL: `https://api.xxx.dev`,
   COOKIE: `xxx`,
   OUTPUT: `./apis`,
-  IMPORT: `import { request } from '@/request'`
+  IMPORT: `import { request } from '@/request'`,
+  PREFIX: `/api/v1`,
 });
 ```

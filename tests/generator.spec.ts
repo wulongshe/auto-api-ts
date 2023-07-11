@@ -105,8 +105,8 @@ test('generateServices', () => {
   }
   const serviceCode = generateService(tag, basePath, importRequest)
 
-  expect(serviceCode).toBe(`import { request } from '@/request'
-import { UpdateSupplyStatusRequest } from './models'
+  expect(serviceCode).toBe(`import { UpdateSupplyStatusRequest } from './models'
+import { request } from '@/request'
 
 /* 不再供货接口 */
 export const MyItemNoSupplyIdPost = (data: UpdateSupplyStatusRequest, id: number /* 商品id */): Promise<SupplyItemSkuRes[]> => request.post(\`/api/v1/scm/myItem/noSupply/\${id}\`, data)`)

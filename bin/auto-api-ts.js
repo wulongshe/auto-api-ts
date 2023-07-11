@@ -7,4 +7,3 @@ const { build } = require('../dist/index.js');
 dotenv.config();
 
 build(process.env);
-

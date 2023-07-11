@@ -38,26 +38,26 @@ export function generateModels(models: TransformedModel[]): string {
   return models.map(generateModel).join('\n\n')
 }
 
-export function generateApi(api: TransformedApi, basePath: string): string {
+export function generateApi(api: TransformedApi, basePath: string, prefix?: string): string {
   const { name, description, response, method, body, query, paths = [] } = api
   const pathProps = paths.map(generateProperty)
   const properties = [body && `data: ${body}`, query && `params: ${query}`, ...pathProps].filter(Boolean).join(', ')
-  const apiPath = `\`${path.posix.join(basePath, api.path)}\``
+  const apiPath = `\`${path.posix.join(prefix || '', basePath, api.path)}\``
   const parameters = [apiPath, body && 'data', query && '{ params }'].filter(Boolean).join(', ')
   return `${generateDescription(description)}
 export const ${name} = (${properties}): Promise<${response || UNKNOWN}> => request.${method}(${parameters})`
 }
 
-export function generateService(tag: TransformedTag, basePath: string, importRequest: string): string {
-  const imports = [importRequest, generateImports([...new Set(tag.apis.flatMap((api) => api.modelNames))])]
-  const services = tag.apis.map((api) => generateApi(api, basePath))
+export function generateService(tag: TransformedTag, basePath: string, importRequest: string, prefix?: string): string {
+  const imports = [generateImports([...new Set(tag.apis.flatMap((api) => api.modelNames))]), importRequest]
+  const services = tag.apis.map((api) => generateApi(api, basePath, prefix))
   return [imports.filter(Boolean).join('\n'), ...services].join('\n\n')
 }
 
-export function generator(ast: TransformedApiDocs, importRequest: string): Record<string, string> {
+export function generator(ast: TransformedApiDocs, importRequest: string, prefix?: string): Record<string, string> {
   const output: Record<string, string> = { models: generateModels(ast.models), index: generateExports(ast.tags) }
   return ast.tags.reduce(
-    (acc, tag) => ((acc[tag.name] = generateService(tag, ast.basePath, importRequest)), acc),
+    (acc, tag) => ((acc[tag.name] = generateService(tag, ast.basePath, importRequest, prefix)), acc),
     output,
   )
 }
