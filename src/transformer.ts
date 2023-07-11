@@ -104,7 +104,7 @@ export function transformParameter(param: Parameter): TransformedProp {
   return {
     key: param.name,
     required: param.required,
-    value: param.type ? convertTypeMap[param.type] : param.schema ? transformType(param.schema) : '',
+    value: param.type ? transformType(param) : param.schema ? transformType(param.schema) : '',
     description: param.description,
   }
 }
