@@ -101,9 +101,15 @@ export interface Property {
   format?: string
 }
 
+export function joinUrlPath(url: string, path: string) {
+  const urlObj = new URL(url)
+  urlObj.pathname = path
+  return urlObj.toString()
+}
+
 export function loadSwaggerResources(config: Config): Promise<AxiosResponse<SwaggerResource[]>> {
-  const url = config.BASE_URL + '/swagger-resources'
-  const referer = config.BASE_URL + '/swagger-ui.html'
+  const url = joinUrlPath(config.BASE_URL, '/swagger-resources')
+  const referer = joinUrlPath(config.BASE_URL, '/swagger-ui.html')
   return axios(url, {
     headers: {
       cookie: config.COOKIE,
@@ -117,8 +123,8 @@ export function loadSwaggerResources(config: Config): Promise<AxiosResponse<Swag
 }
 
 export async function loadApiDocs(config: Config, apiVersion: string): Promise<AxiosResponse<ApiDocs>> {
-  const url = config.BASE_URL + apiVersion
-  const referer = config.BASE_URL + '/swagger-ui.html'
+  const url = joinUrlPath(config.BASE_URL, apiVersion)
+  const referer = joinUrlPath(config.BASE_URL, '/swagger-ui.html')
   return axios(url, {
     headers: {
       cookie: config.COOKIE,
