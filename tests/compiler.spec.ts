@@ -133,7 +133,9 @@ test('compiler', () => {
       },
     },
   }
-  const importRequest = `import { request } from '@/request'`
+  const importRequest = `import { request } from '@/request'
+
+const prefix = '\${basePath}'`
   const prefix = '/${prefix}'
 
   const codes = compiler(apiDocs, importRequest, prefix)
@@ -167,15 +169,21 @@ export * from './SupplyPackageController'`,
       SupplyItemController: `import { UpdateSupplyStatusRequest } from './models'
 import { request } from '@/request'
 
+const prefix = '/api/v1/scm'
+
 /* 不再供货接口 */
-export const MyItemNoSupplyIdPost = (data: UpdateSupplyStatusRequest, id: number /* 商品id */): Promise<boolean> => request.post(\`/\${prefix}/api/v1/scm/myItem/noSupply/\${id}\`, data)`,
+export const MyItemNoSupplyIdPost = (data: UpdateSupplyStatusRequest, id: number /* 商品id */): Promise<boolean> => request.post(\`/\${prefix}/myItem/noSupply/\${id}\`, data)`,
       SupplyOrderController: `import { MyItemSkuGetParams, SupplyItemSkuRes } from './models'
 import { request } from '@/request'
 
+const prefix = '/api/v1/scm'
+
 /* 我的供货-sku列表 */
-export const MyItemSkuGet = (params: MyItemSkuGetParams): Promise<SupplyItemSkuRes[]> => request.get(\`/\${prefix}/api/v1/scm/myItem/sku\`, { params })`,
+export const MyItemSkuGet = (params: MyItemSkuGetParams): Promise<SupplyItemSkuRes[]> => request.get(\`/\${prefix}/myItem/sku\`, { params })`,
       SupplyPackageController: `import {  } from './models'
-import { request } from '@/request'`,
+import { request } from '@/request'
+
+const prefix = '/api/v1/scm'`,
     },
   ])
 })

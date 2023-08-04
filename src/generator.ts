@@ -42,7 +42,7 @@ export function generateApi(api: TransformedApi, basePath: string, prefix?: stri
   const { name, description, response, method, body, query, paths = [] } = api
   const pathProps = paths.map(generateProperty)
   const properties = [body && `data: ${body}`, query && `params: ${query}`, ...pathProps].filter(Boolean).join(', ')
-  const apiPath = `\`${path.posix.join(prefix || '', basePath, api.path)}\``
+  const apiPath = `\`${path.posix.join(prefix || basePath, api.path)}\``
   const parameters = [apiPath, method === 'post' && (body ? 'data' : '{}'), query && '{ params }']
     .filter(Boolean)
     .join(', ')
@@ -51,7 +51,10 @@ export const ${name} = (${properties}): Promise<${response || UNKNOWN}> => reque
 }
 
 export function generateService(tag: TransformedTag, basePath: string, importRequest: string, prefix?: string): string {
-  const imports = [generateImports([...new Set(tag.apis.flatMap((api) => api.modelNames))]), importRequest]
+  const imports = [
+    generateImports([...new Set(tag.apis.flatMap((api) => api.modelNames))]),
+    importRequest.replace(/\$\{basePath\}/g, basePath.replace(/\/$/g, '')),
+  ]
   const services = tag.apis.map((api) => generateApi(api, basePath, prefix))
   return [imports.filter(Boolean).join('\n'), ...services].join('\n\n')
 }

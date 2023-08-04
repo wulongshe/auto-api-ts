@@ -104,7 +104,9 @@ export const MyItemNoSupplyIdPost = (params: MyItemNoSupplyIdPostParams, id: num
 
 test('generateServices', () => {
   const basePath = '/api/v1/scm/'
-  const importRequest = `import { request } from '@/request'`
+  const importRequest = `import { request } from '@/request'
+
+const prefix = '\${basePath}'`
   const tag: TransformedTag = {
     description: '供应商我的商品',
     name: 'SupplyItemController',
@@ -132,11 +134,14 @@ test('generateServices', () => {
       },
     ],
   }
-  const serviceCode = generateService(tag, basePath, importRequest)
+  const prefix = '${prefix}'
+  const serviceCode = generateService(tag, basePath, importRequest, prefix)
 
   expect(serviceCode).toBe(`import { UpdateSupplyStatusRequest } from './models'
 import { request } from '@/request'
 
+const prefix = '/api/v1/scm'
+
 /* 不再供货接口 */
-export const MyItemNoSupplyIdPost = (data: UpdateSupplyStatusRequest, id: number /* 商品id */): Promise<SupplyItemSkuRes[]> => request.post(\`/api/v1/scm/myItem/noSupply/\${id}\`, data)`)
+export const MyItemNoSupplyIdPost = (data: UpdateSupplyStatusRequest, id: number /* 商品id */): Promise<SupplyItemSkuRes[]> => request.post(\`\${prefix}/myItem/noSupply/\${id}\`, data)`)
 })
