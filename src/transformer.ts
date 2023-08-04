@@ -148,11 +148,17 @@ export function transformDocumentName({ basePath = '', info: { title } }: ApiDoc
 export function transformApiName(path: string, method: string): string {
   const plist = path.replace(/[\{\}]/g, '').split(/[\/\.\-]/)
   plist.push(method)
-  return plist.filter(Boolean).map(capitalizedWord).join('')
+  return plist
+    .filter(Boolean)
+    .reverse()
+    .reduce((acc, cur) => (!acc.includes(cur) && acc.push(cur), acc), [] as string[])
+    .reverse()
+    .map(capitalizedWord)
+    .join('')
 }
 
 export function transformApiPath(path: string) {
-  return path.replace(/\{(.*)\}/g, '$$$&')
+  return path.replace(/{([^}]+)}/g, '${$1}')
 }
 
 export function transformApi(path: string, pathItem: PathItem): TransformedApi {

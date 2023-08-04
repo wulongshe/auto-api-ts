@@ -73,6 +73,35 @@ test('generateApi', () => {
 export const MyItemNoSupplyIdPost = (data: UpdateSupplyStatusRequest, id: number /* 商品id */): Promise<SupplyItemSkuRes[]> => request.post(\`/api/v1/scm/myItem/noSupply/\${id}\`, data)`)
 })
 
+test('generateApi post', () => {
+  const basePath = '/api/v1/scm/'
+  const api: TransformedApi = {
+    id: 'updateSupplyStatusUsingPOST',
+    modelNames: ['UpdateSupplyStatusRequest', 'SupplyItemSkuRes'],
+    models: [],
+    tag: '供应商我的商品',
+    name: 'MyItemNoSupplyIdPost',
+    description: '不再供货接口',
+    method: 'post',
+    path: '/myItem/noSupply/${id}',
+    body: undefined,
+    query: 'MyItemNoSupplyIdPostParams',
+    paths: [
+      {
+        key: 'id',
+        required: true,
+        value: 'number',
+        description: '商品id',
+      },
+    ],
+    response: 'SupplyItemSkuRes[]',
+  }
+  const apiCode = generateApi(api, basePath)
+
+  expect(apiCode).toBe(`/* 不再供货接口 */
+export const MyItemNoSupplyIdPost = (params: MyItemNoSupplyIdPostParams, id: number /* 商品id */): Promise<SupplyItemSkuRes[]> => request.post(\`/api/v1/scm/myItem/noSupply/\${id}\`, {}, { params })`)
+})
+
 test('generateServices', () => {
   const basePath = '/api/v1/scm/'
   const importRequest = `import { request } from '@/request'`

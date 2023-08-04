@@ -124,7 +124,7 @@ test('transformParams', () => {
 })
 
 test('transformApi', () => {
-  const path = '/myItem/noSupply/{id}'
+  const path = '/myItem/noSupply/{id}/{sku}'
   const pathItem: PathItem = {
     post: {
       tags: ['供应商我的商品'],
@@ -146,6 +146,13 @@ test('transformApi', () => {
           in: 'path',
           name: 'id',
           description: '商品id',
+          required: true,
+          type: 'integer',
+        },
+        {
+          in: 'path',
+          name: 'sku',
+          description: 'sku',
           required: true,
           type: 'integer',
         },
@@ -171,10 +178,10 @@ test('transformApi', () => {
     modelNames: ['UpdateSupplyStatusRequest', 'SupplyItemSkuRes'],
     models: [],
     tag: '供应商我的商品',
-    name: 'MyItemNoSupplyIdPost',
+    name: 'MyItemNoSupplyIdSkuPost',
     description: '不再供货接口',
     method: 'post',
-    path: '/myItem/noSupply/${id}',
+    path: '/myItem/noSupply/${id}/${sku}',
     body: 'UpdateSupplyStatusRequest',
     query: undefined,
     paths: [
@@ -183,6 +190,12 @@ test('transformApi', () => {
         required: true,
         value: 'number',
         description: '商品id',
+      },
+      {
+        key: 'sku',
+        required: true,
+        value: 'number',
+        description: 'sku',
       },
     ],
     response: 'SupplyItemSkuRes[]',

@@ -43,7 +43,9 @@ export function generateApi(api: TransformedApi, basePath: string, prefix?: stri
   const pathProps = paths.map(generateProperty)
   const properties = [body && `data: ${body}`, query && `params: ${query}`, ...pathProps].filter(Boolean).join(', ')
   const apiPath = `\`${path.posix.join(prefix || '', basePath, api.path)}\``
-  const parameters = [apiPath, body && 'data', query && '{ params }'].filter(Boolean).join(', ')
+  const parameters = [apiPath, method === 'post' && (body ? 'data' : '{}'), query && '{ params }']
+    .filter(Boolean)
+    .join(', ')
   return `${generateDescription(description)}
 export const ${name} = (${properties}): Promise<${response || UNKNOWN}> => request.${method}(${parameters})`
 }
