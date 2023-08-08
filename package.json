@@ -1,6 +1,6 @@
 {
   "name": "auto-api-ts",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "author": "shewulong",
   "license": "MIT",
   "description": "",
@@ -17,6 +17,7 @@
     "pub": "tsc && pnpm publish"
   },
   "files": [
+    "bin",
     "dist",
     "src"
   ],
