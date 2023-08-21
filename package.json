@@ -1,25 +1,24 @@
 {
   "name": "auto-api-ts",
-  "version": "1.2.6",
+  "version": "1.3.0",
   "author": "shewulong",
   "license": "MIT",
   "description": "",
   "main": "dist/index.js",
-  "module": "src/index.ts",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "type": "commonjs",
+  "type":"commonjs",
   "bin": {
     "auto-api-ts": "bin/auto-api-ts.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rimraf dist && tsup src/index.ts --dts --format cjs,esm --minify --clean",
     "test": "vitest run",
     "pub": "tsc && pnpm publish"
   },
   "files": [
     "bin",
-    "dist",
-    "src"
+    "dist"
   ],
   "keywords": [
     "swagger",
@@ -34,6 +33,8 @@
   "devDependencies": {
     "@types/fs-extra": "^11.0.1",
     "@types/node": "^20.3.1",
+    "rimraf": "^5.0.1",
+    "tsup": "^7.2.0",
     "typescript": "^5.1.6",
     "vitest": "^0.32.2"
   },

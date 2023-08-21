@@ -147,7 +147,7 @@ export function transformDocumentName({ basePath = '', info: { title } }: ApiDoc
 
 export function transformApiName(path: string, method: string): string {
   const plist = path.replace(/[\{\}]/g, '').split(/[\/\.\-]/)
-  plist.push(method)
+  // plist.push(method)
   return plist
     .filter(Boolean)
     .reverse()
