@@ -1,5 +1,6 @@
 import path from 'path'
 import { TransformedModel, TransformedApiDocs, TransformedApi, TransformedProp, TransformedTag } from './transformer'
+import { Config } from './compiler'
 
 export const UNKNOWN = 'unknown'
 
@@ -50,19 +51,16 @@ export function generateApi(api: TransformedApi, basePath: string, prefix?: stri
 export const ${name} = (${properties}): Promise<${response || UNKNOWN}> => request.${method}(${parameters})`
 }
 
-export function generateService(tag: TransformedTag, basePath: string, importRequest: string, prefix?: string): string {
+export function generateService(tag: TransformedTag, basePath: string, config: Config): string {
   const imports = [
     generateImports([...new Set(tag.apis.flatMap((api) => api.modelNames))]),
-    importRequest.replace(/\$\{basePath\}/g, basePath.replace(/\/$/g, '')),
+    config.IMPORT.replace(/\$\{basePath\}/g, basePath.replace(/\/$/g, '')),
   ]
-  const services = tag.apis.map((api) => generateApi(api, basePath, prefix))
+  const services = tag.apis.map((api) => generateApi(api, basePath, config.PREFIX))
   return [imports.filter(Boolean).join('\n'), ...services].join('\n\n')
 }
 
-export function generator(ast: TransformedApiDocs, importRequest: string, prefix?: string): Record<string, string> {
+export function generator(ast: TransformedApiDocs, config: Config): Record<string, string> {
   const output: Record<string, string> = { models: generateModels(ast.models), index: generateExports(ast.tags) }
-  return ast.tags.reduce(
-    (acc, tag) => ((acc[tag.name] = generateService(tag, ast.basePath, importRequest, prefix)), acc),
-    output,
-  )
+  return ast.tags.reduce((acc, tag) => ((acc[tag.name] = generateService(tag, ast.basePath, config)), acc), output)
 }

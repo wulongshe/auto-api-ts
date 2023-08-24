@@ -133,12 +133,12 @@ test('compiler', () => {
       },
     },
   }
-  const importRequest = `import { request } from '@/request'
+  const IMPORT = `import { request } from '@/request'
 
 const prefix = '\${basePath}'`
-  const prefix = '/${prefix}'
+  const PREFIX = '/${prefix}'
 
-  const codes = compiler(apiDocs, importRequest, prefix)
+  const codes = compiler(apiDocs, { IMPORT, PREFIX } as any)
 
   expect(codes).toEqual([
     'SupplierScmV1Api',

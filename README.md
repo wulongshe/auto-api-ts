@@ -29,6 +29,8 @@ OUTPUT="./apis"
 IMPORT="import { request } from '@/request'"
 # api前缀
 PREFIX="/api/v1"
+# api名称压缩等级 'none' | 'normal' | 'highest'
+MINIFY_API_NAME="highest"
 ```
 
 ### 在`package.json`中添加脚本
@@ -58,5 +60,6 @@ build({
   OUTPUT: `./apis`,
   IMPORT: `import { request } from '@/request'`,
   PREFIX: `/api/v1`,
+  MINIFY_API_NAME: `highest`,
 });
 ```

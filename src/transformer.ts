@@ -145,16 +145,23 @@ export function transformDocumentName({ basePath = '', info: { title } }: ApiDoc
   return [title, ...plist.reverse()].filter(Boolean).map(capitalizedWord).join('')
 }
 
-export function transformApiName(path: string, method: string): string {
-  const plist = path.replace(/[\{\}]/g, '').split(/[\/\.\-]/)
-  // plist.push(method)
-  return plist
-    .filter(Boolean)
-    .reverse()
-    .reduce((acc, cur) => (!acc.includes(cur) && acc.push(cur), acc), [] as string[])
-    .reverse()
-    .map(capitalizedWord)
-    .join('')
+export function transformApiName(
+  path: string,
+  method: string,
+  MINIFY_API_NAME?: 'none' | 'normal' | 'highest',
+): string {
+  let plist = path.replace(/[\{\}]/g, '').split(/[\/\.\-]/)
+  if (MINIFY_API_NAME !== 'highest') {
+    plist.push(method)
+  }
+  if (MINIFY_API_NAME === 'normal' || MINIFY_API_NAME === 'highest') {
+    plist = plist
+      .reverse()
+      .reduce((acc, cur) => (!acc.includes(cur) && acc.push(cur), acc), [] as string[])
+      .reverse()
+  }
+  plist = plist.filter(Boolean).map(capitalizedWord)
+  return plist.join('')
 }
 
 export function transformApiPath(path: string) {

@@ -11,11 +11,12 @@ export interface Config {
   OUTPUT: string
   IMPORT: string
   PREFIX?: string
+  MINIFY_API_NAME?: 'none' | 'normal' | 'highest'
 }
 
-export function compiler(input: ApiDocs, impReqPath: string, prefix?: string): [string, Record<string, string>] {
+export function compiler(input: ApiDocs, config: Config): [string, Record<string, string>] {
   const transformedApiDocs = transformer(input)
-  const codes = generator(transformedApiDocs, impReqPath, prefix)
+  const codes = generator(transformedApiDocs, config)
   return [transformedApiDocs.name, codes]
 }
 
@@ -31,7 +32,7 @@ export async function build(config: Config) {
   await Promise.all(
     locations.map(async (location) => {
       const apiDocs = await loadApiDocs(config, location)
-      const [docName, codes] = compiler(apiDocs.data, config.IMPORT, config.PREFIX)
+      const [docName, codes] = compiler(apiDocs.data, config)
       const filePath = path.posix.join(config.OUTPUT, docName)
       await fs.mkdir(filePath)
       await Promise.all(

@@ -104,7 +104,7 @@ export const MyItemNoSupplyIdPost = (params: MyItemNoSupplyIdPostParams, id: num
 
 test('generateServices', () => {
   const basePath = '/api/v1/scm/'
-  const importRequest = `import { request } from '@/request'
+  const IMPORT = `import { request } from '@/request'
 
 const prefix = '\${basePath}'`
   const tag: TransformedTag = {
@@ -134,8 +134,8 @@ const prefix = '\${basePath}'`
       },
     ],
   }
-  const prefix = '${prefix}'
-  const serviceCode = generateService(tag, basePath, importRequest, prefix)
+  const PREFIX = '${prefix}'
+  const serviceCode = generateService(tag, basePath, { IMPORT, PREFIX } as any)
 
   expect(serviceCode).toBe(`import { UpdateSupplyStatusRequest } from './models'
 import { request } from '@/request'
