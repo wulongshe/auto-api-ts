@@ -1,17 +1,24 @@
 {
   "name": "auto-api-ts",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "author": "shewulong",
   "license": "MIT",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "bin": {
     "auto-api-ts": "bin/auto-api-ts.js"
   },
   "scripts": {
-    "build": "tsup src/index.ts --dts --format cjs,esm --minify --clean",
+    "build": "tsup src/index.ts --dts --format cjs,esm --minify --clean && rimraf dist/index.d.ts",
     "test": "vitest run"
   },
   "files": [
@@ -31,6 +38,7 @@
   "devDependencies": {
     "@types/fs-extra": "^11.0.1",
     "@types/node": "^20.3.1",
+    "rimraf": "^5.0.1",
     "tsup": "^7.2.0",
     "typescript": "^5.1.6",
     "vitest": "^0.32.2"
