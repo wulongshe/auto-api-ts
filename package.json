@@ -1,6 +1,6 @@
 {
   "name": "auto-api-ts",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "author": "shewulong",
   "license": "MIT",
   "description": "",
@@ -18,7 +18,7 @@
     "auto-api-ts": "bin/auto-api-ts.js"
   },
   "scripts": {
-    "build": "tsup src/index.ts --dts --format cjs,esm --minify --clean && rimraf dist/index.d.ts",
+    "build": "tsup src/index.ts --dts --format cjs,esm --minify --clean && rimraf dist/index.d.mts",
     "test": "vitest run"
   },
   "files": [
